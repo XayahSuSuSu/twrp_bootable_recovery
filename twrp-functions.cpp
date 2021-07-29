@@ -1208,6 +1208,27 @@ unsigned long long TWFunc::IOCTL_Get_Block_Size(const char* block_device) {
 	}
 	return 0;
 }
+std::string TWFunc::get_Real_Block_Device(string Block) {
+	char device[PATH_MAX], realDevice[PATH_MAX];
+    
+	strcpy(device, Block.c_str());
+	memset(realDevice, 0, sizeof(realDevice));
+	
+    while (readlink(device, realDevice, sizeof(realDevice)) > 0)
+	{
+		strcpy(device, realDevice);
+		memset(realDevice, 0, sizeof(realDevice));
+	}
+    
+	if (device[0] != '/') {
+		return "";
+	} else {
+        std::string device_str = device;
+		return device_str;
+	}
+}
+
+
 
 void TWFunc::copy_kernel_log(string curr_storage) {
 	std::string dmesgDst = curr_storage + "/dmesg.log";

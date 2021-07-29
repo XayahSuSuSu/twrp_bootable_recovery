@@ -293,11 +293,6 @@ int TWPartitionManager::Process_Fstab(string Fstab_Filename, bool Display_Error)
 	}
 //TWFunc::Update_Log_File();
 
-string Command = "resetprop ro.bootimage.build.date.utc 1546335651";
-TWFunc::Exec_Cmd(Command, false);
-Command = "resetprop ro.build.date.utc 1546335651";
-TWFunc::Exec_Cmd(Command, false);
-                   
 //TWFunc::Exec_Cmd("cp /tmp/recovery.log /cache/rec3.log && echo '' > search_media_dir");
 	//Setup Apex before decryption
 	TWPartition* sys = PartitionManager.Find_Partition_By_Path(PartitionManager.Get_Android_Root_Path());
@@ -311,7 +306,7 @@ TWFunc::Exec_Cmd(Command, false);
                 if (TWFunc::Path_Exists("/vendor/build.prop")) {
                     LOGINFO("Loading stock fingerprint key..\n");
                     string Command = "resetprop ro.build.fingerprint $(cat /vendor/build.prop | grep 'ro.vendor.build.fingerprint' | cut -d'=' -f2 | tail -1)";
-                    if (TWFunc::Exec_Cmd(Command, false) == 0){
+                    if (TWFunc::Exec_Cmd(Command) == 0){
                
                 		TWFunc::Exec_Cmd("getprop ro.build.fingerprint ", false);
                 	}
@@ -384,6 +379,7 @@ TWFunc::Update_Log_File();
 	Decrypt_Data();
 #endif
 
+	Update_System_Details();
 	if (Get_Super_Status())
 		Setup_Super_Partition();
 	UnMount_Main_Partitions();
@@ -1225,10 +1221,6 @@ int TWPartitionManager::Run_Restore(const string& Restore_Name) {
 
 				string Full_Filename = part_settings.Backup_Folder + "/" + part_settings.Part->Backup_FileName;
 
-				if (tw_get_default_metadata(Get_Android_Root_Path().c_str()) != 0) {
-					gui_msg(Msg(msg::kWarning, "restore_system_context=Unable to get default context for {1} -- Android may not boot.")(Get_Android_Root_Path()));
-				}
-
 				if (check_digest > 0 && !twrpDigestDriver::Check_Digest(Full_Filename))
 					return false;
 				part_settings.partition_count++;
@@ -1284,7 +1276,6 @@ int TWPartitionManager::Run_Restore(const string& Restore_Name) {
 		}
 	}
 	TWFunc::GUI_Operation_Text(TW_UPDATE_SYSTEM_DETAILS_TEXT, gui_parse_text("{@updating_system_details}"));
-	tw_set_default_metadata(Get_Android_Root_Path().c_str());
 	UnMount_By_Path(Get_Android_Root_Path(), false);
 	Update_System_Details();
 	UnMount_Main_Partitions();
@@ -1800,7 +1791,6 @@ void TWPartitionManager::Post_Decrypt(const string& Block_Device) {
 			DataManager::SetValue("tw_settings_path", "/data/media/0");
 			dat->UnMount(false);
 		}
-		DataManager::LoadTWRPFolderInfo();
 		Update_System_Details();
 		Output_Partition(dat);
 		UnMount_Main_Partitions();
@@ -2401,7 +2391,6 @@ void TWPartitionManager::Get_Partition_List(string ListType, std::vector<Partiti
 				Partition_List->push_back(part);
 			}
 		}
-		  
 	} else if (ListType == "backup") {
 		char backup_size[255];
 		unsigned long long Backup_Size;
@@ -2995,16 +2984,6 @@ bool TWPartitionManager::Decrypt_Adopted() {
 	}
 	std::vector<TWPartition*>::iterator adopt;
 	for (adopt = Partitions.begin(); adopt != Partitions.end(); adopt++) {
-		if ((*adopt)->Removable && !(*adopt)->Is_Present && (*adopt)->Adopted_Mount_Delay > 0) {
-			// On some devices, the external mmc driver takes some time
-			// to recognize the card, in which case the "actual block device"
-			// would not have been found yet. We wait the specified delay
-			// and then try again.
-			LOGINFO("Sleeping %d seconds for adopted storage.\n", (*adopt)->Adopted_Mount_Delay);
-			sleep((*adopt)->Adopted_Mount_Delay);
-			(*adopt)->Find_Actual_Block_Device();
-		}
-
 		if ((*adopt)->Removable && (*adopt)->Is_Present) {
 			if ((*adopt)->Decrypt_Adopted() == 0) {
 				ret = true;
@@ -3359,7 +3338,7 @@ bool TWPartitionManager::Prepare_Super_Volume(TWPartition* twrpPart) {
 
     fstab.emplace_back(fstabEntry);
     if (!fs_mgr_update_logical_partition(&fstabEntry)) {
-        LOGINFO("unable to update logical partition: %s\n", twrpPart->Get_Mount_Point().c_str());
+        LOGERR("unable to update logical partition: %s\n", twrpPart->Get_Mount_Point().c_str());
         return false;
     }
 
@@ -3372,9 +3351,6 @@ bool TWPartitionManager::Prepare_Super_Volume(TWPartition* twrpPart) {
 	twrpPart->Change_Mount_Read_Only(true);
 	twrpPart->Set_Can_Be_Backed_Up(false);
 	twrpPart->Set_Can_Be_Wiped(false);
-	LOGINFO("Symlinking %s => /dev/block/bootdevice/by-name/%s \n", fstabEntry.blk_device.c_str(), bare_partition_name.c_str());
-	symlink(fstabEntry.blk_device.c_str(), ("/dev/block/bootdevice/by-name/" + bare_partition_name).c_str());
-
     return true;
 }
 
@@ -3427,8 +3403,8 @@ void TWPartitionManager::Setup_Super_Partition() {
 	superPartition->Mount_Point = "/super";
 	superPartition->Actual_Block_Device = superPart;
 	superPartition->Alternate_Block_Device = superPart;
-#ifdef BOARD_SUPER_PARTITION_PARTITION_LIST
-	superPartition->Backup_Display_Name = "Super (" BOARD_SUPER_PARTITION_PARTITION_LIST ")";
+#ifdef BOARD_DYNAMIC_PARTITIONS_PARTITION_LIST
+	superPartition->Backup_Display_Name = "Super (" BOARD_DYNAMIC_PARTITIONS_PARTITION_LIST ")";
 #else
 	superPartition->Backup_Display_Name = "Super";
 #endif
@@ -3440,6 +3416,7 @@ void TWPartitionManager::Setup_Super_Partition() {
 	superPartition->Setup_Image();
 	Add_Partition(superPartition);
 	PartitionManager.Output_Partition(superPartition);
+	Update_System_Details();
 }
 
 bool TWPartitionManager::Get_Super_Status() {

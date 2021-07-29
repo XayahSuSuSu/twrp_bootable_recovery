@@ -760,5 +760,9 @@
 		<string name="change_twrp_folder_on_process">Changing TWRP folder</string>
 		<string name="change_twrp_folder_after_process">TWRP folder changed to</string>
 		<string name="tw_folder_exists">A folder with that name already exists!</string>
+
+        <string name="isnt_avb">This boot file isn't avb.</string>
+        <string name="aleady_anti_avb">This boot file is aleady anti avb boot. </string>
+
 	</resources>
 </language>

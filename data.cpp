@@ -580,9 +580,9 @@ void DataManager::SetDefaultValues()
 	mConst.SetValue(TW_VERSION_VAR, TW_VERSION_STR);
 
 #ifndef TW_NO_HAPTICS
-	mPersist.SetValue("tw_button_vibrate", "80");
-	mPersist.SetValue("tw_keyboard_vibrate", "40");
-	mPersist.SetValue("tw_action_vibrate", "160");
+	mPersist.SetValue("tw_button_vibrate", "3");
+	mPersist.SetValue("tw_keyboard_vibrate", "6");
+	mPersist.SetValue("tw_action_vibrate", "20");
 	mConst.SetValue("tw_disable_haptics", "0");
 #else
 	LOGINFO("TW_NO_HAPTICS := true\n");
@@ -917,7 +917,7 @@ void DataManager::SetDefaultValues()
 	mConst.SetValue("tw_app_installed_in_system", "0");
 #else
 	mConst.SetValue("tw_oem_build", "0");
-	mPersist.SetValue("tw_app_prompt", "1");
+	mPersist.SetValue("tw_app_prompt", "0");
 	mPersist.SetValue("tw_app_install_system", "1");
 	mData.SetValue("tw_app_install_status", "0"); // 0 = no status, 1 = not installed, 2 = already installed
 	mData.SetValue("tw_app_installed_in_system", "0");
