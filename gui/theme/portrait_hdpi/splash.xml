@@ -41,6 +41,11 @@
 				<placement x="540" y="1590" placement="5"/>
 				<text>Recovery Project 3.5.2 By Xayah</text>
 			</text>
+			<text color="%header_color%">
+				<font resource="font_l"/>
+				<placement x="540" y="1850" placement="5"/>
+				<text>It takes a long time to decrypt data...</text>
+			</text>
 		</page>
 	</pages>
 </recovery>
