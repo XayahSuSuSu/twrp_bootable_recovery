@@ -3787,6 +3787,19 @@
 
 			<listbox style="advanced_listbox">
 				<placement x="%indent%" y="%row13a_y%" w="%content_width%" h="%listbox_advanced_height%"/>
+				<listitem name="{@install_no_replace_twrp=Do not replace TWRP with stock recovery}">
+					<actions>
+						<action function="set">tw_back=advanced</action>
+						<action function="set">tw_addon_filepath=/addon/no_replace_twrp_avb2.zip</action>
+						<action function="set">tw_action=flash_addon</action>
+						<action function="set">tw_text1={@addon_no_replace_twrp_ask=Do you want prevent from replacing TWRP with stock recovery?}</action>
+						<action function="set">tw_text3={@addon_no_replace_twrp_tip=This will modify stock avb2.0 boot to prevent twrp being covered}</action>
+						<action function="set">tw_action_text1={@addon_no_replace_twrp_doing=Installing...}</action>
+						<action function="set">tw_complete_text1={@addon_no_replace_twrp_finished=Install Complete}</action>
+						<action function="set">tw_slider_text={@swipe_to_confirm=Swipe to Confirm}</action>
+						<action function="page">confirm_action</action>
+					</actions>
+				</listitem>
 				<listitem name="{@install_magisk=Install Magisk v23.0}">
 					<actions>
 						<action function="set">tw_back=advanced</action>
