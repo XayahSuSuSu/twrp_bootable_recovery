@@ -26,10 +26,6 @@
 		<page name="splash">
 			<background color="%background_color%"/>
 
-			<fill color="%header_color%">
-				<placement x="0" y="0" w="%screen_width%" h="456"/>
-			</fill>
-
 			<image>
 				<image resource="splashlogo"/>
 				<placement x="540" y="456" placement="4"/>
@@ -43,7 +39,7 @@
 			<text color="%header_color%">
 				<font resource="font_l"/>
 				<placement x="540" y="1590" placement="5"/>
-				<text>Recovery Project %tw_version%</text>
+				<text>Recovery Project 3.5.2 By Xayah</text>
 			</text>
 		</page>
 	</pages>
