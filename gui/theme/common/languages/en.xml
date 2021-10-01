@@ -769,5 +769,11 @@
 		<string name="addon_magisk_tip">It can root your device</string>
 		<string name="addon_magisk_doing">Installing Magisk...</string>
 		<string name="addon_magisk_finished">Install Magisk Complete</string>
+
+		<string name="install_4gbrom">Flash Rom(>=4GB)</string>
+		<string name="addon_4gbrom_ask">Do you want to flash?</string>
+		<string name="addon_4gbrom_tip">You need to put your *.zip into /sdcard/TWRP_OTA</string>
+		<string name="addon_4gbrom_doing">Flashing...</string>
+		<string name="addon_4gbrom_finished">Flash Complete</string>
 	</resources>
 </language>

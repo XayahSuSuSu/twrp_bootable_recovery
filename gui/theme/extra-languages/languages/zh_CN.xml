@@ -757,5 +757,11 @@
 		<string name="addon_magisk_tip">这将会获取Root权限</string>
 		<string name="addon_magisk_doing">安装Magisk中...</string>
 		<string name="addon_magisk_finished">安装Magisk完成</string>
+
+		<string name="install_4gbrom">刷入大于4GB的ROM</string>
+		<string name="addon_4gbrom_ask">是否刷入？</string>
+		<string name="addon_4gbrom_tip">你需要将待刷入ROM放入 /sdcard/TWRP_OTA</string>
+		<string name="addon_4gbrom_doing">刷入中...</string>
+		<string name="addon_4gbrom_finished">刷入完成</string>
 	</resources>
 </language>
