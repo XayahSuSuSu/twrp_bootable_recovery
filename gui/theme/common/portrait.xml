@@ -3787,6 +3787,19 @@
 
 			<listbox style="advanced_listbox">
 				<placement x="%indent%" y="%row13a_y%" w="%content_width%" h="%listbox_advanced_height%"/>
+				<listitem name="{@install_magisk=Install Magisk v23.0}">
+					<actions>
+						<action function="set">tw_back=advanced</action>
+						<action function="set">tw_addon_filepath=/addon/Magisk-v23.0.zip</action>
+						<action function="set">tw_action=flash_addon</action>
+						<action function="set">tw_text1={@addon_magisk_ask=Do you want to install Magisk v23.0?}</action>
+						<action function="set">tw_text3={@addon_magisk_tip=It can root your device}</action>
+						<action function="set">tw_action_text1={@addon_magisk_doing=Installing Magisk...}</action>
+						<action function="set">tw_complete_text1={@addon_magisk_finished=Install Magisk Complete}</action>
+						<action function="set">tw_slider_text={@swipe_to_confirm=Swipe to Confirm}</action>
+						<action function="page">confirm_action</action>
+					</actions>
+				</listitem>
 				<listitem name="{@change_twrp_folder_btn=Change TWRP folder}">
 					<condition var1="tw_is_encrypted" var2="0"/>
 					<action function="page">changeTwrpFolder</action>

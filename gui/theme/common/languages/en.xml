@@ -764,5 +764,10 @@
         <string name="isnt_avb">This boot file isn't avb.</string>
         <string name="aleady_anti_avb">This boot file is aleady anti avb boot. </string>
 
+		<string name="install_magisk">Install Magisk v23.0</string>
+		<string name="addon_magisk_ask">Do you want to install Magisk v23.0?</string>
+		<string name="addon_magisk_tip">It can root your device</string>
+		<string name="addon_magisk_doing">Installing Magisk...</string>
+		<string name="addon_magisk_finished">Install Magisk Complete</string>
 	</resources>
 </language>

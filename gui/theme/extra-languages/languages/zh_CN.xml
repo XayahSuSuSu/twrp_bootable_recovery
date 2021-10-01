@@ -751,5 +751,11 @@
 		<string name="rescue_party2"> 2. 格式化 Data 分区；</string>
 		<string name="rescue_party3"> 3. 重新刷入您的 ROM。</string>
 		<string name="rescue_party4">报告的问题为：</string>
+
+		<string name="install_magisk">安装Magisk V23.0</string>
+		<string name="addon_magisk_ask">你是否要安装Magisk v23.0?</string>
+		<string name="addon_magisk_tip">这将会获取Root权限</string>
+		<string name="addon_magisk_doing">安装Magisk中...</string>
+		<string name="addon_magisk_finished">安装Magisk完成</string>
 	</resources>
 </language>
