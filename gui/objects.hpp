@@ -368,6 +368,7 @@ protected:
 	int twcmd(std::string arg);
 	int setbootslot(std::string arg);
 	int installapp(std::string arg);
+	int flash_addon(std::string arg);
 	int uninstalltwrpsystemapp(std::string arg);
 	int repackimage(std::string arg);
 	int fixabrecoverybootloop(std::string arg);
